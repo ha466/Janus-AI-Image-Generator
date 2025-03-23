@@ -32,7 +32,7 @@ The application uses a Python Flask backend to handle image generation and a mod
 ### Step 1: Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/janus-image-generator.git
+https://github.com/ha466/Janus-AI-Image-Generator.git
 cd janus-image-generator
 ```
 
