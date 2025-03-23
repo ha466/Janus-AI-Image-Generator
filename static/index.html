@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Janus AI Image Generator</title>
+    <link rel="stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo-container">
+                <img src="static/janus-logo.png" alt="Janus AI" class="logo">
+                <h1>Janus AI Image Generator</h1>
+            </div>
+        </header>
+        
+        <main>
+            <section class="prompt-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Create Your Image</h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form id="generationForm">
+                            <div class="form-group">
+                                <label for="promptInput">Image Description</label>
+                                <textarea id="promptInput" placeholder="Describe the image you want to generate... Be detailed and specific for best results."></textarea>
+                            </div>
+                            
+                            <div class="settings-grid">
+                                <div class="form-group">
+                                    <label for="numImages">Number of Images</label>
+                                    <select id="numImages">
+                                        <option value="1">1 image</option>
+                                        <option value="2">2 images</option>
+                                        <option value="4" selected>4 images</option>
+                                        <option value="8">8 images</option>
+                                        <option value="16">16 images (1K only)</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="resolution">Resolution</label>
+                                    <select id="resolution">
+                                        <option value="1K">1K (Standard)</option>
+                                        <option value="2K">2K (High Resolution)</option>
+                                        <option value="4K">4K (Ultra HD)</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="cfgScale">Guidance Scale <span id="cfgValue">7.0</span></label>
+                                    <div class="slider-container">
+                                        <input type="range" id="cfgScale" min="1" max="15" step="0.5" value="7">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="temperature">Creativity <span id="tempValue">0.8</span></label>
+                                    <div class="slider-container">
+                                        <input type="range" id="temperature" min="0.1" max="1.5" step="0.1" value="0.8">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <button type="submit" id="generateBtn">
+                                    <i class="fas fa-magic"></i> Generate Images
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="loadingSection" class="loading-section hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Generating Images</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="loading-container">
+                            <div class="spinner"></div>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progressBar"></div>
+                            </div>
+                            <p id="loadingText">Generating your images... This may take a few minutes.</p>
+                            <p id="statusDetail">Initializing...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="resultSection" class="result-section hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Generated Images</h2>
+                        <div class="card-actions">
+                            <button id="downloadAllBtn" class="action-button">
+                                <i class="fas fa-download"></i> Download All
+                            </button>
+                            <button id="newGenerationBtn" class="action-button">
+                                <i class="fas fa-plus"></i> New Generation
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="imageGrid" class="image-grid"></div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="errorSection" class="error-section hidden">
+                <div class="card error-card">
+                    <div class="card-header">
+                        <h2>Error</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="error-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <p id="errorMessage"></p>
+                        <button id="tryAgainBtn" class="action-button">
+                            <i class="fas fa-redo"></i> Try Again
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <div id="imageModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <img id="modalImage" src="" alt="Full resolution image">
+                <div class="modal-actions">
+                    <button id="downloadBtn" class="action-button">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>&copy; 2023 | Powered by <a href="https://github.com/deepseek-ai/Janus" target="_blank">Janus</a> by DeepSeek AI</p>
+        </footer>
+    </div>
+    
+    <script src="static/script.js"></script>
+</body>
+</html> 
