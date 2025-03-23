@@ -1,169 +1,140 @@
+# Janus AI Image Generator: Where Pixels Party!
 
-# Janus AI Image Generator
-
-![Janus AI](static/janus-logo.png)
+![Janus AI](static/janus-logo.png)  
+*Our mascot Janus - two faces because one's always judging your prompt*
 
 ## Overview
 
-Janus AI Image Generator is a web application that leverages DeepSeek AI's powerful Janus models to generate high-quality images from text descriptions. This application supports multiple resolutions (1K, 2K, and 4K), batch generation, and various creative settings, all within an intuitive user interface.
-
-The application uses a Python Flask backend to handle image generation and a modern HTML/CSS/JS frontend for the user interface.
+Janus AI Image Generator is like a magic lamp for your weirdest ideas, except instead of a genie, you get GPUs working overtime. We've trained some very sleep-deprived AI models (they prefer "chronically caffeinated") to turn your text into images. Describe it, and we'll generate it - whether that's "a majestic unicorn eating tacos" or "my sleep paralysis demon in business casual."
 
 ## Features
 
-- **Text-to-Image Generation**: Create images from detailed text descriptions
-- **Multiple Resolution Support**: Generate images in 1K, 2K, or 4K resolution
-- **Batch Processing**: Generate up to 16 images in a single request (depending on resolution)
-- **Creative Controls**: Adjust guidance scale and temperature for creative control
-- **Real-time Progress Tracking**: Monitor generation progress with a progress bar
-- **High-quality Upscaling**: Advanced upscaling techniques for higher resolution outputs
-- **Image Management**: View, download individual images or all generated images at once
-- **Responsive Design**: Works on desktop and mobile devices
+- **Text-to-Image Generation**: Turn your wildest dreams into pixels (we won't judge... much)
+- **Multiple Resolution Support**: 1K for memes, 4K for art so sharp it could cut reality
+- **Batch Processing**: Generate 16 images before you finish saying "CUDA out of memory"
+- **Creative Controls**: Because sometimes you want a photorealistic cat, sometimes you want a cubist giraffe
+- **Real-time Progress Tracking**: Watch the progress bar move slower than your motivation on Monday
+- **High-quality Upscaling**: Making your images clearer than your life choices
+- **Image Management**: Download button included - your parents will finally believe you're an "artist"
+- **Responsive Design**: Works on desktop, mobile, and your smart fridge (because why not?)
 
-## Installation
+## Installation: The Quest Begins
 
 ### Prerequisites
 
-- Python 3.8 or higher (tested with Python 3.11.9)
-- CUDA-compatible GPU (optional, but recommended for faster generation)
-- At least 8GB of RAM (16GB+ recommended for 2K/4K images)
-- ~5GB of disk space for model files
+- Python 3.8+ (We'd say 3.6 but that's like using a flip phone)
+- CUDA-compatible GPU (Or a potato and infinite patience)
+- 8GB RAM (16GB if you want to generate more than stick figures)
+- 5GB disk space (Less than your meme folder)
 
-### Step 1: Clone the repository
+### Step 1: Clone Like It's 1999
 
 ```bash
-https://github.com/ha466/Janus-AI-Image-Generator.git
+git clone https://github.com/ha466/Janus-AI-Image-Generator.git
 cd janus-image-generator
 ```
 
-### Step 2: Set up the environment
+### Step 2: Environment Setup (Not the Jungle Kind)
 
 ```bash
-# Create and activate a virtual environment (optional but recommended)
+# Create a virtual environment so we don't fight with your other Python projects
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  # Windows users: venv\Scripts\activate (good luck)
 
-# Install dependencies
+# Install dependencies - this may take longer than your last relationship
 python setup.py
 ```
 
-### Step 3: Download the model
-
-If you haven't already downloaded a Janus model, you can use the `download_model.py` script:
+### Step 3: Download Our Digital Brainchildren
 
 ```bash
 python download_model.py --model Janus-Pro-1B
 ```
 
-Available model options:
-- `Janus-Pro-1B` (Default, best balance of quality and speed)
-- `Janus-Pro-7B` (Higher quality, but requires more GPU memory)
-- `Janus-1.3B` (Smaller model, faster)
-- `JanusFlow-1.3B` (Alternative architecture)
+Model options explained:  
+- `Janus-Pro-1B`: Your reliable Honda Civic of AI models  
+- `Janus-Pro-7B`: The Hulk Hogan of models (needs GPU muscles)  
+- `Janus-1.3B`: For when you're in a hurry and quality is optional  
+- `JanusFlow-1.3B`: The abstract expressionist of the group  
 
-### Step 4: Run the application
+### Step 4: Launch the Magic
 
 ```bash
 python gpu.py
 ```
 
-The application will be available at http://localhost:5000
+Now visit http://localhost:5000 and try not to crash your browser with "shrek in space"
 
-## Usage Guide
+## Usage Guide: From Mundane to Masterpiece
 
-### Generating Images
+### Step 1: Describe Your Vision
 
-1. **Enter a description**: Type a detailed description of the image you want to generate in the text area.
-   - Be specific about details like style, colors, lighting, and composition
-   - Example: "A stunning winter landscape with snow-covered pine trees, a frozen lake, and a small log cabin with warm lights in the windows, photorealistic style"
+Channel your inner Shakespeare:  
+Good: "A cybernetic samurai squirrel wielding a lightsaber made of cheese"  
+Bad: "thing with stuff" (Our AI will judge you silently)
 
-2. **Select generation settings**:
-   - **Number of Images**: How many images to generate (1-16)
-   - **Resolution**: Select from 1K (standard), 2K (high resolution), or 4K (ultra HD)
-   - **Guidance Scale**: Controls how closely the model follows your prompt (higher = more faithful to the prompt)
-   - **Creativity**: Controls the randomness of generation (higher = more creative, lower = more deterministic)
+### Step 2: Tweak the Knobs
 
-3. **Generate Images**: Click the "Generate Images" button and wait for the process to complete.
+- **Number of Images**: How many attempts you need before getting it right  
+- **Resolution**: 1K = Instagram, 4K = "I need to see every pore"  
+- **Guidance Scale**: 1 = "Do whatever", 10 = "HELICOPTER PARENT MODE"  
+- **Creativity**: 1 = Paint-by-numbers, 10 = Toddler on sugar  
 
-### Managing Generated Images
+### Step 3: Generate and Wait
 
-- **View Full-size**: Click on any thumbnail to view the full-resolution image
-- **Download Individual Images**: While viewing a full-size image, click "Download" to save it
-- **Download All Images**: Click "Download All" to save all generated images
-- **Start New Generation**: Click "New Generation" to clear the results and start over
+Click the button and:  
+1. Watch the progress bar  
+2. Question your life choices  
+3. Consider making coffee  
+4. Get surprised when it actually works  
 
-## Configuration
+## Troubleshooting: Panic Mode
 
-### Model Settings
-
-The application uses the local model in the `janus_pro1b` folder by default. To use a different model:
-
-1. Download the desired model using the `download_model.py` script
-2. Edit `gpu.py` and update the `model_path` variable in the `load_model()` function to point to your model folder
-
-### Advanced Settings
-
-Edit the `gpu.py` file to modify these advanced settings:
-
-- **GPU Memory Management**: Adjust batch sizes and parallelism based on your GPU memory
-- **Image Quality**: Modify upscaling algorithms and JPEG quality settings
-- **Server Configuration**: Change host address and port number
-
-## Troubleshooting
-
-### Common Issues
-
-#### "No module named 'cv2'"
+### "No module named 'cv2'"
 ```
 pip install opencv-python
+# If that fails, try sacrificing a USB drive to the tech gods
 ```
 
-#### "No module named 'janus'"
-```
-pip install git+https://github.com/deepseek-ai/Janus.git
-```
+### "CUDA out of memory"
+- Generate fewer images than your GPU's self-esteem can handle  
+- Switch to 1K resolution (Your 8K monitor will forgive you)  
+- Try the model that thinks it's 2010 ("Janus-1.3B")  
 
-#### "CUDA out of memory"
-- Lower the resolution in the UI
-- Generate fewer images at once
-- Use a smaller model (e.g., Janus-Pro-1B instead of Janus-Pro-7B)
+### "Error loading model"
+- Did you unzip it?  
+- Did you look at it funny?  
+- Try turning it off and on again (classic)  
 
-#### "Error loading model"
-- Ensure the model path in `gpu.py` matches your folder structure
-- Check that you have all the model files downloaded correctly
+### Slow Generation?
+- GPU: "I'm speed!"  
+- CPU: "I'm... contemplating the universe..."  
+Pro tip: Use generation time to:  
+1. Learn a new language  
+2. Write your novel  
+3. Question why you didn't buy a better GPU  
 
-#### Slow Image Generation
-- Use a GPU if available
-- Close other GPU-intensive applications
-- For CPU-only setups, generate fewer images and use 1K resolution
+## License & Credits
 
+- **Janus Models**: Made with ❤️ and ☕️ by DeepSeek AI  
+- **App Code**: MIT License - do whatever, just don't blame us if it creates a black hole  
+- **You**: Legendary for reading this far  
 
-## Credits and License
+### Citation (For Academic Flex)
 
-- **Janus Model**: Created by [DeepSeek AI](https://github.com/deepseek-ai/Janus)
-- **Janus License**: The use of Janus models is subject to the [DeepSeek Model License](https://github.com/deepseek-ai/Janus/blob/main/LICENSE-MODEL)
-- **Application Code**: MIT License
-
-### Citation
-
-If you use this application for academic or research purposes, please cite the original Janus papers:
-
-```
-@article{chen2025janus,
-  title={Janus-Pro: Unified Multimodal Understanding and Generation with Data and Model Scaling},
-  author={Chen, Xiaokang and Wu, Zhiyu and Liu, Xingchao and Pan, Zizheng and Liu, Wen and Xie, Zhenda and Yu, Xingkai and Ruan, Chong},
-  journal={arXiv preprint arXiv:2501.17811},
-  year={2025}
-}
-
-@article{wu2024janus,
-  title={Janus: Decoupling visual encoding for unified multimodal understanding and generation},
-  author={Wu, Chengyue and Chen, Xiaokang and Wu, Zhiyu and Ma, Yiyang and Liu, Xingchao and Pan, Zizheng and Liu, Wen and Xie, Zhenda and Yu, Xingkai and Ruan, Chong and others},
-  journal={arXiv preprint arXiv:2410.13848},
+```bibtex
+@article{janus2024,
+  title={How We Made GPUs Cry},
+  author={All Night Coders},
+  journal={Journal of Questionable Life Choices},
   year={2024}
 }
 ```
 
-## Contact
+## Need Help?
 
-For questions or support, please [open an issue](https://github.com/yourusername/janus-image-generator/issues) on GitHub.
+- GitHub Issues: Our digital therapy couch  
+- Email: support@janus.ai (Responses may include cat pictures)  
+- Carrier Pigeon: Please attach SSD with error logs  
+
+Now go forth and generate things that would confuse Van Gogh! 🎨🚀
