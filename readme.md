@@ -138,3 +138,6 @@ Pro tip: Use generation time to:
 - Carrier Pigeon: Please attach SSD with error logs  
 
 Now go forth and generate things that would confuse Van Gogh! 🎨🚀
+
+rabit findes (![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/ha466/docs?utm_source=oss&utm_medium=github&utm_campaign=ha466%2Fdocs&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
+
