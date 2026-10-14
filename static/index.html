@@ -1,112 +1,188 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Janus AI Image Generator</title>
-    <link rel="stylesheet" href="static/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Janus AI - Creative Image Studio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="app-container">
-        <header>
-            <div class="logo-container">
-                <img src="static/janus-logo.png" alt="Janus AI" class="logo">
-                <h1>Janus AI Image Generator</h1>
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-brand">
+                <div class="logo-wrapper">
+                    <img src="janus-logo.png" alt="Janus AI" class="logo" onerror="this.src='https://raw.githubusercontent.com/deepseek-ai/Janus/main/images/logo.png'">
+                </div>
+                <div class="brand-text">
+                    <h1>Janus AI Studio</h1>
+                    <span class="subtitle">Multimodal Visual Generation</span>
+                </div>
+            </div>
+
+            <div class="header-controls">
+                <div class="system-status-badge" id="systemStatusBadge" title="Checking system status...">
+                    <span class="status-dot pulsing"></span>
+                    <span class="status-text" id="statusText">System Ready</span>
+                </div>
+
+                <button id="themeToggleBtn" class="icon-btn" aria-label="Toggle dark/light theme" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
             </div>
         </header>
-        
-        <main>
-            <section class="prompt-section">
-                <div class="card">
+
+        <!-- Main Content Grid -->
+        <main class="main-layout">
+            <!-- Sidebar / Control Panel -->
+            <section class="control-panel">
+                <div class="card glass-card">
                     <div class="card-header">
-                        <h2>Create Your Image</h2>
+                        <h2><i class="fas fa-wand-magic-sparkles"></i> Image Prompt</h2>
                     </div>
-                    
+
                     <div class="card-body">
                         <form id="generationForm">
                             <div class="form-group">
-                                <label for="promptInput">Image Description</label>
-                                <textarea id="promptInput" placeholder="Describe the image you want to generate... Be detailed and specific for best results."></textarea>
+                                <div class="label-row">
+                                    <label for="promptInput">Prompt Description</label>
+                                    <button type="button" id="randomPromptBtn" class="text-link-btn">
+                                        <i class="fas fa-dice"></i> Surprise Me
+                                    </button>
+                                </div>
+                                <textarea id="promptInput" placeholder="Describe what you want to visualize in vivid detail... e.g. A cyberpunk samurai overlooking a neon rainy Tokyo city at night" required></textarea>
                             </div>
-                            
+
+                            <!-- Example Prompt Chips -->
+                            <div class="form-group">
+                                <label class="sub-label">Quick Ideas</label>
+                                <div class="prompt-chips" id="promptChips">
+                                    <span class="chip-skeleton">Loading prompt ideas...</span>
+                                </div>
+                            </div>
+
+                            <!-- Parameters Grid -->
                             <div class="settings-grid">
                                 <div class="form-group">
-                                    <label for="numImages">Number of Images</label>
+                                    <label for="numImages"><i class="fas fa-images"></i> Quantity</label>
                                     <select id="numImages">
-                                        <option value="1">1 image</option>
-                                        <option value="2">2 images</option>
-                                        <option value="4" selected>4 images</option>
-                                        <option value="8">8 images</option>
-                                        <option value="16">16 images (1K only)</option>
+                                        <option value="1">1 Image</option>
+                                        <option value="2">2 Images</option>
+                                        <option value="4" selected>4 Images</option>
+                                        <option value="8">8 Images</option>
+                                        <option value="16">16 Images (1K)</option>
                                     </select>
                                 </div>
-                                
+
                                 <div class="form-group">
-                                    <label for="resolution">Resolution</label>
+                                    <label for="resolution"><i class="fas fa-expand"></i> Quality</label>
                                     <select id="resolution">
-                                        <option value="1K">1K (Standard)</option>
-                                        <option value="2K">2K (High Resolution)</option>
-                                        <option value="4K">4K (Ultra HD)</option>
+                                        <option value="1K" selected>1K Standard (1024px)</option>
+                                        <option value="2K">2K High Res (2048px)</option>
+                                        <option value="4K">4K Ultra HD (4096px)</option>
                                     </select>
                                 </div>
-                                
-                                <div class="form-group">
-                                    <label for="cfgScale">Guidance Scale <span id="cfgValue">7.0</span></label>
+
+                                <div class="form-group full-width">
+                                    <div class="slider-header">
+                                        <label for="cfgScale"><i class="fas fa-sliders"></i> Guidance (CFG)</label>
+                                        <span id="cfgValue" class="value-badge">7.0</span>
+                                    </div>
                                     <div class="slider-container">
                                         <input type="range" id="cfgScale" min="1" max="15" step="0.5" value="7">
+                                        <div class="slider-ticks">
+                                            <span>1.0</span>
+                                            <span>7.0</span>
+                                            <span>15.0</span>
+                                        </div>
                                     </div>
                                 </div>
-                                
-                                <div class="form-group">
-                                    <label for="temperature">Creativity <span id="tempValue">0.8</span></label>
+
+                                <div class="form-group full-width">
+                                    <div class="slider-header">
+                                        <label for="temperature"><i class="fas fa-fire"></i> Creativity</label>
+                                        <span id="tempValue" class="value-badge">0.8</span>
+                                    </div>
                                     <div class="slider-container">
                                         <input type="range" id="temperature" min="0.1" max="1.5" step="0.1" value="0.8">
+                                        <div class="slider-ticks">
+                                            <span>0.1 (Strict)</span>
+                                            <span>0.8 (Balanced)</span>
+                                            <span>1.5 (Wild)</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            
-                            <div class="form-group">
-                                <button type="submit" id="generateBtn">
-                                    <i class="fas fa-magic"></i> Generate Images
+
+                            <div class="form-group action-group">
+                                <button type="submit" id="generateBtn" class="primary-btn">
+                                    <i class="fas fa-bolt"></i> Generate Artwork
                                 </button>
                             </div>
                         </form>
                     </div>
                 </div>
             </section>
-            
-            <section id="loadingSection" class="loading-section hidden">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Generating Images</h2>
-                    </div>
+
+            <!-- Main Stage / Gallery & Progress -->
+            <section class="gallery-stage">
+                <!-- Loading State -->
+                <div id="loadingSection" class="card glass-card loading-card hidden">
                     <div class="card-body">
                         <div class="loading-container">
-                            <div class="spinner"></div>
-                            <div class="progress-container">
-                                <div class="progress-bar" id="progressBar"></div>
+                            <div class="pulse-ring"></div>
+                            <div class="progress-info">
+                                <h3 id="loadingTitle">Transforming text into pixels...</h3>
+                                <p id="statusDetail">Preparing neural network weights</p>
                             </div>
-                            <p id="loadingText">Generating your images... This may take a few minutes.</p>
-                            <p id="statusDetail">Initializing...</p>
+
+                            <div class="progress-bar-wrapper">
+                                <div class="progress-bar-fill" id="progressBar"></div>
+                            </div>
+
+                            <div class="loading-actions">
+                                <span id="progressPercentage">0%</span>
+                                <button id="cancelGenBtn" class="secondary-btn btn-sm">
+                                    <i class="fas fa-stop"></i> Cancel
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </section>
-            
-            <section id="resultSection" class="result-section hidden">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Generated Images</h2>
-                        <div class="card-actions">
-                            <button id="downloadAllBtn" class="action-button">
-                                <i class="fas fa-download"></i> Download All
+
+                <!-- Error State -->
+                <div id="errorSection" class="card glass-card error-card hidden">
+                    <div class="card-body">
+                        <div class="error-wrapper">
+                            <div class="error-icon">
+                                <i class="fas fa-circle-exclamation"></i>
+                            </div>
+                            <h3>Generation Interrupted</h3>
+                            <p id="errorMessage">An unexpected issue occurred.</p>
+                            <button id="tryAgainBtn" class="secondary-btn">
+                                <i class="fas fa-rotate-right"></i> Try Again
                             </button>
-                            <button id="newGenerationBtn" class="action-button">
-                                <i class="fas fa-plus"></i> New Generation
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Display -->
+                <div id="resultSection" class="card glass-card result-card hidden">
+                    <div class="card-header">
+                        <div class="result-meta">
+                            <h2><i class="fas fa-photo-film"></i> Generated Canvas</h2>
+                            <span id="resultPromptText" class="result-prompt-preview"></span>
+                        </div>
+                        <div class="card-actions">
+                            <button id="downloadAllBtn" class="secondary-btn btn-sm">
+                                <i class="fas fa-download"></i> Download Batch
+                            </button>
+                            <button id="newGenerationBtn" class="primary-btn btn-sm">
+                                <i class="fas fa-plus"></i> New Prompt
                             </button>
                         </div>
                     </div>
@@ -114,43 +190,78 @@
                         <div id="imageGrid" class="image-grid"></div>
                     </div>
                 </div>
-            </section>
-            
-            <section id="errorSection" class="error-section hidden">
-                <div class="card error-card">
+
+                <!-- Recent Generations History Section -->
+                <div class="card glass-card history-card">
                     <div class="card-header">
-                        <h2>Error</h2>
+                        <h2><i class="fas fa-clock-rotate-left"></i> Session History</h2>
+                        <button id="clearHistoryBtn" class="text-link-btn text-danger">
+                            <i class="fas fa-trash-can"></i> Clear History
+                        </button>
                     </div>
                     <div class="card-body">
-                        <div class="error-icon">
-                            <i class="fas fa-exclamation-triangle"></i>
+                        <div id="historyList" class="history-list">
+                            <div class="empty-history">
+                                <i class="fas fa-palette"></i>
+                                <p>No recent generations yet. Create your first artwork above!</p>
+                            </div>
                         </div>
-                        <p id="errorMessage"></p>
-                        <button id="tryAgainBtn" class="action-button">
-                            <i class="fas fa-redo"></i> Try Again
-                        </button>
                     </div>
                 </div>
             </section>
         </main>
-        
-        <div id="imageModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <img id="modalImage" src="" alt="Full resolution image">
-                <div class="modal-actions">
-                    <button id="downloadBtn" class="action-button">
-                        <i class="fas fa-download"></i> Download
-                    </button>
+
+        <!-- Image Lightbox Modal -->
+        <div id="imageModal" class="modal-overlay">
+            <div class="modal-card">
+                <button class="modal-close" id="closeModalBtn" aria-label="Close modal">&times;</button>
+                <div class="modal-body-wrapper">
+                    <div class="modal-image-col">
+                        <img id="modalImage" src="" alt="Full size preview">
+                    </div>
+                    <div class="modal-details-col">
+                        <h3>Artwork Details</h3>
+                        <div class="detail-item">
+                            <label>Prompt</label>
+                            <p id="modalPromptText"></p>
+                        </div>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <label>Resolution</label>
+                                <span id="modalResTag" class="badge">1K</span>
+                            </div>
+                            <div class="detail-item">
+                                <label>CFG Scale</label>
+                                <span id="modalCfgTag" class="badge">7.0</span>
+                            </div>
+                            <div class="detail-item">
+                                <label>Creativity</label>
+                                <span id="modalTempTag" class="badge">0.8</span>
+                            </div>
+                            <div class="detail-item">
+                                <label>Gen Time</label>
+                                <span id="modalTimeTag" class="badge">-</span>
+                            </div>
+                        </div>
+                        <div class="modal-actions">
+                            <button id="downloadBtn" class="primary-btn">
+                                <i class="fas fa-download"></i> Download Full Image
+                            </button>
+                            <button id="reusePromptBtn" class="secondary-btn">
+                                <i class="fas fa-copy"></i> Reuse Prompt
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <footer>
-            <p>&copy; 2023 | Powered by <a href="https://github.com/deepseek-ai/Janus" target="_blank">Janus</a> by DeepSeek AI</p>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>Janus AI Creative Studio &bull; Powered by <a href="https://github.com/deepseek-ai/Janus" target="_blank" rel="noopener">Janus (DeepSeek AI)</a></p>
         </footer>
     </div>
-    
-    <script src="static/script.js"></script>
+
+    <script src="script.js"></script>
 </body>
-</html> 
+</html>
